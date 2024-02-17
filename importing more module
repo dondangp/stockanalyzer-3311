@@ -42,3 +42,9 @@ fig = px.line(data, x='Date', y='Adj Close', title=ticker)
 fig = px.line(data, x=data.index.name, y='Adj Close', title=ticker)
 fig.update_traces(line=dict(color='Pink'))
 st.plotly_chart(fig)
+
+
+# Tabs
+news, pricing_data,tips_tab = st.tabs(
+    ["News", "Price Movement", "Tips"]
+)
