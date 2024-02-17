@@ -4,12 +4,12 @@ Our vision is to revolutionize the way individuals engage with the stocks market
 
 How to run:
 pip3 install:
-numpy
-pandas
-plotly
-python-dotenv
-stocknews
-streamlit
+numpy,
+pandas,
+plotly,
+python-dotenv,
+stocknews,
+streamlit,
 yfinance
 
 then run the command:
