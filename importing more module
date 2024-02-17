@@ -5,4 +5,17 @@ from stocknews import StockNews
 import random
 import os
 import numpy as np
-st.markdown(>StockAnalyzer</h1>)
+
+TIPS_BEFORE_BUYING = [
+    "Develop a trading plan with clear goals, risk tolerance, and strategies.",
+    "Understand technical analysis to identify buying and selling opportunities.",
+    "Stay informed about market trends and news that could impact stock prices.",
+    "Use stop-loss and take-profit orders to manage risk and protect gains.",
+    "Practice paper trading to test strategies without financial risk.",
+    "Limit your exposure by not putting all your capital in a single trade.",
+    "Be mindful of trading fees and taxes, as they can eat into your profits.",
+    "Learn from your trades by keeping a journal of your decisions and outcomes.",
+    "Stay disciplined and don't let emotions drive your trading decisions.",
+    "Continuously educate yourself on market conditions and trading techniques."
+]
+st.markdown("<h1 style='text-align: center;'>StockAnalyzer</h1>", unsafe_allow_html=True)
