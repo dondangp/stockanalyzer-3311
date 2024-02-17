@@ -11,6 +11,6 @@ python-dotenv,
 stocknews,
 streamlit,
 yfinance
-
+OR import modules via requirements.txt 
 then run the command:
 streamlit run StockAnalyzer.py
