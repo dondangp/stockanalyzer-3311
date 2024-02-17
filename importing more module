@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+from alpha_vantage.fundamentaldata import FundamentalData
 import plotly.express as px
 import streamlit as st
 import yfinance as yf
@@ -5,7 +7,7 @@ from stocknews import StockNews
 import random
 import os
 import numpy as np
-
+#Created an array with tips for users
 TIPS_BEFORE_BUYING = [
     "Develop a trading plan with clear goals, risk tolerance, and strategies.",
     "Understand technical analysis to identify buying and selling opportunities.",
@@ -18,4 +20,25 @@ TIPS_BEFORE_BUYING = [
     "Stay disciplined and don't let emotions drive your trading decisions.",
     "Continuously educate yourself on market conditions and trading techniques."
 ]
+#Shuffle the array to display tips
+random.shuffle(TIPS_BEFORE_BUYING)
+#Display only three tips at a time
+selected_tips = TIPS_BEFORE_BUYING[:3] 
+# Load environment variables
+load_dotenv()
+# Retrieve API keys from .env file
+alpha_vantage_key = os.getenv('ALPHA_VANTAGE_KEY')
+# Streamlit app
 st.markdown("<h1 style='text-align: center;'>StockAnalyzer</h1>", unsafe_allow_html=True)
+
+# Sidebar inputs
+ticker = st.sidebar.text_input('Ticker', value='AAPL')
+start_date = st.sidebar.date_input('Start Date')
+end_date = st.sidebar.date_input('End Date')
+
+# Download stock data
+data = yf.download(ticker, start=start_date, end=end_date).reset_index()
+fig = px.line(data, x='Date', y='Adj Close', title=ticker)
+fig = px.line(data, x=data.index.name, y='Adj Close', title=ticker)
+fig.update_traces(line=dict(color='Pink'))
+st.plotly_chart(fig)
