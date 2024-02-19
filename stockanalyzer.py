@@ -53,8 +53,8 @@ load_dotenv()
 # Retrieve API keys from .env file
 alpha_vantage_key = os.getenv('ALPHA_VANTAGE_KEY')
 
-# Streamlit app
-st.title('StockAnalyzer')
+#centered title
+st.markdown("<center><h1 style='color: pink;'>StockAnalyzer</h1></center>", unsafe_allow_html=True)
 
 # Sidebar inputs
 stock = st.sidebar.text_input('stock', value='AAPL')
