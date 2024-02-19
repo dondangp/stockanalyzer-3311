@@ -11,9 +11,8 @@ from stocknews import StockNews  # For fetching news related to stocks
 import random  # For shuffling the tips list
 import plotly.graph_objects as go  # For more customized plots
 from plotly.subplots import make_subplots  # Importing make_subplots for subplot creation
-
-import random
-
+import random #using random to shuffle tips array
+#created a class to hold an array of stock tips for users
 class StockTips:
     def __init__(self):
         # Initialize the tips array within the class
@@ -74,10 +73,7 @@ if graph_style == "Default":
 else:
     fig = px.line(data, x='Date', y='Adj Close', title=stock)
     fig.update_traces(line=dict(dash='dot', color='blue'), marker=dict(size=10, color='LightSkyBlue'))
-
 st.plotly_chart(fig)
-
-
 
 # Tabs for different sections of the app: News, Price Movement, and Tips
 news, pricing_movement, tips_tab = st.tabs(["News", "Price Movement", "Tips"])
