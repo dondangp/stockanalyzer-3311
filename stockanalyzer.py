@@ -12,22 +12,40 @@ import random  # For shuffling the tips list
 import plotly.graph_objects as go  # For more customized plots
 from plotly.subplots import make_subplots  # Importing make_subplots for subplot creation
 
-# Created an array with tips for users
-TIPS_BEFORE_BUYING = [
-    "Always do your own research and due diligence before buying a stock.",
-    "Diversify your portfolio to spread risk.",
-    "Invest in companies you understand and believe in for the long term.",
-    "Avoid making decisions based solely on price movements or market speculation.",
-    "Monitor your investments regularly and stay updated with market news.",
-    "Consider the company's fundamentals, such as earnings, valuation, and growth potential.",
-    "Always be cautious of stocks with extremely high valuations or rapid price increases.",
-    "Set a budget and avoid investing money you can't afford to lose.",
-    "Consider setting stop-loss orders to limit potential losses.",
-    "Stay patient and avoid emotional decision-making."
-]
+import random
 
-random.shuffle(TIPS_BEFORE_BUYING)  # Shuffle the array to display tips
-selected_tips = TIPS_BEFORE_BUYING[:3]
+class StockTips:
+    def __init__(self):
+        # Initialize the tips array within the class
+        self.tips = [
+            "Always do your own research and due diligence before buying a stock.",
+            "Diversify your portfolio to spread risk.",
+            "Invest in companies you understand and believe in for the long term.",
+            "Avoid making decisions based solely on price movements or market speculation.",
+            "Monitor your investments regularly and stay updated with market news.",
+            "Consider the company's fundamentals, such as earnings, valuation, and growth potential.",
+            "Always be cautious of stocks with extremely high valuations or rapid price increases.",
+            "Set a budget and avoid investing money you can't afford to lose.",
+            "Consider setting stop-loss orders to limit potential losses.",
+            "Stay patient and avoid emotional decision-making."
+        ]
+    
+    def shuffle_tips(self):
+        # Shuffle the tips array
+        random.shuffle(self.tips)
+    
+    def get_tips(self, count=3):
+        # Return the first `count` number of tips
+        return self.tips[:count]
+
+stock_tips = StockTips()  # Create an instance of StockTips
+stock_tips.shuffle_tips()  # Shuffle the tips
+selected_tips = stock_tips.get_tips()  # Get 3 shuffled tips
+
+#display the selected tips
+for tip in selected_tips:
+    print(f"- {tip}")
+
 
 # Load environment variables
 load_dotenv()
