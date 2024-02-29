@@ -17,4 +17,4 @@ yfinance
 OR import modules via requirements.txt using this command: **pip install -r requirements.txt**
 
 To run the program run this in the command line:
-**streamlit run StockAnalyzer.py**
+**streamlit run stockanalyzer.py**
