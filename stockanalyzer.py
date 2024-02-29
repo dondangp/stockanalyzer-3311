@@ -22,7 +22,7 @@ class StockTips:
             "Invest in companies you understand and believe in for the long term.",
             "Avoid making decisions based solely on price movements or market speculation.",
             "Monitor your investments regularly and stay updated with market news.",
-            "Consider the company's fundamentals, such as earnings, valuation, and growth potential.",
+            "Consider the company's fundamentals, such as earnings, val~uation, and growth potential.",
             "Always be cautious of stocks with extremely high valuations or rapid price increases.",
             "Set a budget and avoid investing money you can't afford to lose.",
             "Consider setting stop-loss orders to limit potential losses.",
@@ -75,7 +75,7 @@ else:
 st.plotly_chart(fig)
 
 # Tabs for different sections of the app: News and Tips
-news, tips_tab = st.tabs(["News", "Tips"])
+news, tips_tab, videos = st.tabs(["News", "Tips", "Videos"])
 
 # Tips tab content
 with tips_tab:
@@ -115,3 +115,7 @@ with news:
     # Display average sentiments
     st.markdown(f'## Average Title Sentiment: {average_title_sentiment}')
     st.markdown(f'## Average News Sentiment: {average_summary_sentiment}')
+    with videos:
+        st.header(f'Video Education')
+        video_url = 'https://www.youtube.com/watch?v=-LbKXPoz7-A&ab_channel=%ED%94%BD%ED%8A%B8PickStream'
+        st.video(video_url)
