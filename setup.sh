@@ -1,7 +1,8 @@
-#!/bin/bash
+mkdir -p ~/.streamlit/
 
-# Install required Python packages
-pip install numpy pandas plotly python-dotenv stocknews streamlit yfinance
-
-# Ensure the correct version of Streamlit is installed
-pip install streamlit --upgrade
+echo "\
+[server]\n\
+headless = true\n\
+enableCORS=false\n\
+port = $PORT\n\
+" > ~/.streamlit/config.toml
