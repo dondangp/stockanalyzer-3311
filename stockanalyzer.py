@@ -28,10 +28,7 @@ class StockTips:
             "Consider setting stop-loss orders to limit potential losses.",
             "Stay patient and avoid emotional decision-making."
         ]
-#Hold an array of video tips
-class VideoArray:
-    def __init__(self):
-        self.videos = []
+
     
     def shuffle_tips(self):
         # Shuffle the tips array
@@ -41,6 +38,10 @@ class VideoArray:
         # Return the first `count` number of tips
         return self.tips[:count]
 
+#Hold an array of video tips
+class VideoArray:
+    def __init__(self):
+        self.videos = []
 stock_tips = StockTips()  # Create an instance of StockTips
 stock_tips.shuffle_tips()  # Shuffle the tips
 selected_tips = stock_tips.get_tips()  # Get 3 shuffled tips
