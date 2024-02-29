@@ -5,7 +5,7 @@ Sign up for a free Alpha Vantage API key and create a .env file with the followi
 ALPHA_VANTAGE_KEY = (This is where you put your free/paid key)
 
 How to run:
-pip3 install:
+**pip3 install:**
 numpy,
 pandas,
 plotly,
@@ -14,7 +14,7 @@ stocknews,
 streamlit,
 yfinance
 
-OR import modules via requirements.txt 
-then run the command:
+OR import modules via requirements.txt using this command: **pip install -r requirements.txt**
 
-streamlit run StockAnalyzer.py
+To run the program run this in the command line:
+**streamlit run StockAnalyzer.py**
