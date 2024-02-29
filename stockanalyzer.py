@@ -28,6 +28,10 @@ class StockTips:
             "Consider setting stop-loss orders to limit potential losses.",
             "Stay patient and avoid emotional decision-making."
         ]
+#Hold an array of video tips
+class VideoArray:
+    def __init__(self):
+        self.videos = []
     
     def shuffle_tips(self):
         # Shuffle the tips array
