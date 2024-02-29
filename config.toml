@@ -1,1 +1,13 @@
+# config.toml
+
+# This is a placeholder configuration file for Streamlit that currently has no effect on the application.
+# You can add configurations here as needed to customize your Streamlit app's appearance and behavior.
+
+[theme]
+# base="light"
+# primaryColor="#f63366"
+# backgroundColor="#ffffff"
+# secondaryBackgroundColor="#f0f2f6"
+# textColor="#262730"
+# font="sans serif"
 
