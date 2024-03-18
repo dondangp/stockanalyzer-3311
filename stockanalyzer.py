@@ -54,6 +54,8 @@ video_urls = [
     "https://www.youtube.com/watch?v=86rPBAnRCHc&ab_channel=BrianJung",
     "https://www.youtube.com/watch?v=8Ij7A1VCB7I&ab_channel=MarkTilbury",
     "https://www.youtube.com/watch?v=bEElvs_5byk&ab_channel=MikiRai"
+    "https://www.youtube.com/watch?v=63oF8BOMMB8&ab_channel=FREENVESTING"
+    "https://www.youtube.com/watch?v=Wk-h2CwEH5k&ab_channel=TradingLab"
 ]
 video_array = VideoArray(video_urls)
 video_array.shuffle_videos()
