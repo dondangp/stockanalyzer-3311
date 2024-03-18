@@ -80,7 +80,7 @@ else:
 st.plotly_chart(fig)
 
 # Tabs for different sections of the app: News and Tips
-news, tips_tab, videos = st.tabs(["News", "Tips", "Videos"])
+news, stock_comparison, videos, tips_tab = st.tabs(["News", "Stock Comparison", "Videos", "Tips"])
 
 # Tips tab content
 with tips_tab:
@@ -124,3 +124,34 @@ with news:
         st.header(f'Video Education')
         video_url = 'https://www.youtube.com/watch?v=-LbKXPoz7-A&ab_channel=%ED%94%BD%ED%8A%B8PickStream'
         st.video(video_url)
+
+    with stock_comparison:
+        st.header("Stock Comparison")
+        selected_tickers = st.multiselect(
+            'Select stocks for comparison',
+            ['TSLA', 'AAPL', 'AMZN', 'MSFT', 'GOOGL'],
+            default=['TSLA', 'AAPL']
+        )
+
+        comparison_data = {}
+        for t in selected_tickers:
+            comparison_data[t] = yf.download(t, start=start_date, end=end_date)
+
+        comparison_fig = px.line(title='Stock Comparison')
+        for t, d in comparison_data.items():
+            comparison_fig.add_scatter(x=d.index, y=d['Adj Close'], name=t)
+        st.plotly_chart(comparison_fig)
+
+        comparison_metrics = {}
+        for t, d in comparison_data.items():
+            daily_return = d['Adj Close'] / d['Adj Close'].shift(1) - 1
+            annual_return = daily_return.mean() * 252
+            stdev = np.std(daily_return) * np.sqrt(252)
+            comparison_metrics[t] = {
+                'Annual Return': annual_return,
+                'Standard Deviation': stdev,
+                'Risk Adj. Return': annual_return / stdev
+            }
+
+        comparison_df = pd.DataFrame(comparison_metrics).T
+        st.table(comparison_df)
