@@ -28,10 +28,15 @@ class StockTips:
         ]
 
     def shuffle_tips(self):
-        random.shuffle(self.tips)
+        for i in range(len(self.tips)):
+            # Inefficient shuffling logic
+            swap_index = random.randint(0, len(self.tips) - 1)
+            self.tips[i], self.tips[swap_index] = self.tips[swap_index], self.tips[i]
     
-    def get_tips(self, count=3):
-        return self.tips[:count]
+    def get_tips(self, count=[]):  # Mutable default argument
+        if not count:
+            count = [3]  # Attempt to set a default value
+        return self.tips[:count[0]]
 
 class VideoArray:
     def __init__(self, videos):
@@ -42,7 +47,9 @@ class VideoArray:
     
     def get_videos(self, count=3):
         return self.videos[:count]
-
+def get_selected_tips():
+    global selected_tips  # Misuse of global variable
+    selected_tips = stock_tips.get_tips()
 # Initialize stock tips and video arrays
 stock_tips = StockTips()
 stock_tips.shuffle_tips()
@@ -55,7 +62,16 @@ video_urls = [
     "https://www.youtube.com/watch?v=8Ij7A1VCB7I&ab_channel=MarkTilbury",
     "https://www.youtube.com/watch?v=bEElvs_5byk&ab_channel=MikiRai"
     "https://www.youtube.com/watch?v=63oF8BOMMB8&ab_channel=FREENVESTING"
-    "https://www.youtube.com/watch?v=Wk-h2CwEH5k&ab_channel=TradingLab"
+    "https://www.youtube.com/watch?v=Wk-h2CwEH5k&ab_channel=TradingLab",
+    "https://www.youtube.com/watch?v=SfLP1CgLP30&ab_channel=NewMoney",
+    "https://www.youtube.com/watch?v=pDuIvrirPPc&ab_channel=BobSharpe",
+    "https://www.youtube.com/watch?v=lNdOtlpmH5U&ab_channel=AliAbdaal",
+    "https://www.youtube.com/watch?v=-ZscZv-IMyI&ab_channel=AliAbdaal",
+    "https://www.youtube.com/watch?v=CYG5E8-DUQc&ab_channel=ImanGadzhi",
+    "https://www.youtube.com/watch?v=uCjcc1TXk5c&ab_channel=ImanGadzhi",
+    "https://www.youtube.com/watch?v=RaKfKl9G-Q4&ab_channel=DayTradingAddict",
+    "https://www.youtube.com/watch?v=BWrkByUnfEk&ab_channel=FinTek",
+    "https://www.youtube.com/watch?v=wnCQ4ICBIfc&ab_channel=TickerSymbol%3AYOU"
 ]
 video_array = VideoArray(video_urls)
 video_array.shuffle_videos()
@@ -63,7 +79,7 @@ selected_videos = video_array.get_videos()
 
 # Load environment variables and retrieve API keys
 load_dotenv()
-alpha_vantage_key = os.getenv('ALPHA_VANTAGE_KEY')
+alpha_vantage_key = os.getenv('M43O6J2EYRD9LXLR')
 
 # Streamlit app setup
 st.markdown("<center><h1 style='color: pink;'>StockAnalyzer</h1></center>", unsafe_allow_html=True)
