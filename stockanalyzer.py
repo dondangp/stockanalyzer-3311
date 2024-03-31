@@ -28,15 +28,10 @@ class StockTips:
         ]
 
     def shuffle_tips(self):
-        for i in range(len(self.tips)):
-            # Inefficient shuffling logic
-            swap_index = random.randint(0, len(self.tips) - 1)
-            self.tips[i], self.tips[swap_index] = self.tips[swap_index], self.tips[i]
+        random.shuffle(self.tips)
     
-    def get_tips(self, count=[]):  # Mutable default argument
-        if not count:
-            count = [3]  # Attempt to set a default value
-        return self.tips[:count[0]]
+    def get_tips(self, count=3):
+        return self.tips[:count]
 
 class VideoArray:
     def __init__(self, videos):
@@ -47,9 +42,7 @@ class VideoArray:
     
     def get_videos(self, count=3):
         return self.videos[:count]
-def get_selected_tips():
-    global selected_tips  # Misuse of global variable
-    selected_tips = stock_tips.get_tips()
+
 # Initialize stock tips and video arrays
 stock_tips = StockTips()
 stock_tips.shuffle_tips()
@@ -79,7 +72,7 @@ selected_videos = video_array.get_videos()
 
 # Load environment variables and retrieve API keys
 load_dotenv()
-alpha_vantage_key = os.getenv('M43O6J2EYRD9LXLR')
+alpha_vantage_key = os.getenv('ALPHA_VANTAGE_KEY')
 
 # Streamlit app setup
 st.markdown("<center><h1 style='color: pink;'>StockAnalyzer</h1></center>", unsafe_allow_html=True)
