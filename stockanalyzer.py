@@ -111,32 +111,48 @@ st.plotly_chart(fig)
 # Tabs for different sections of the app
 stock_comparison, stock_chart, news, videos_tab, articles_tab, tips_tab = st.tabs(["Stock Comparison", "Stock Chart", "News", "Videos", "Articles", "Tips"])
 
-
 #stock chart implementation
 with stock_chart:
-    # Existing stock chart code...
-
-    # Add fundamental data section here
-    ticker = stock  # Assuming 'stock' is the ticker symbol entered by the user
+    ticker = stock 
+    fd = FundamentalData(key=alpha_vantage_key, output_format='pandas')
+    st.subheader('Balance Sheet')
+    balance_sheet, _ = fd.get_balance_sheet_annual(symbol=ticker)
+    bs = balance_sheet.T
+    st.write(bs)
+    st.subheader('Income Statement')
+    income_statement, _ = fd.get_income_statement_annual(symbol=ticker)
+    is1 = income_statement.T
+    st.write(is1) 
+    st.subheader('Cash Flow Statement')
+    cash_flow, _ = fd.get_cash_flow_annual(symbol=ticker)
+    cf = cash_flow.T
+    st.write(cf)
+    ticker = stock 
+    fd = FundamentalData(key=alpha_vantage_key, output_format='pandas')
     
-    with st.expander("Fundamental Data"):
-        # Assuming 'alpha_vantage_key' is defined and holds your Alpha Vantage API key
-        fd = FundamentalData(key=alpha_vantage_key, output_format='pandas')
-        
-        st.subheader('Balance Sheet')
-        balance_sheet, _ = fd.get_balance_sheet_annual(symbol=ticker)
-        bs = balance_sheet.T
-        st.write(bs)
-        
-        st.subheader('Income Statement')
-        income_statement, _ = fd.get_income_statement_annual(symbol=ticker)
-        is1 = income_statement.T
-        st.write(is1)
-        
-        st.subheader('Cash Flow Statement')
-        cash_flow, _ = fd.get_cash_flow_annual(symbol=ticker)
-        cf = cash_flow.T
-        st.write(cf)
+    # Plotting stock price and volume data
+    st.subheader(f"{ticker} Stock Price and Volume")
+    # Use yfinance to download the data
+    data = yf.download(ticker, start=start_date, end=end_date)
+    
+    # Creating subplots
+    fig = make_subplots(rows=2, cols=1, shared_xaxes=True, 
+                        vertical_spacing=0.02, subplot_titles=(f'{ticker} Stock Price', 'Volume'),
+                        row_heights=[0.5, 0.2])
+    
+    # Adding stock price to the first subplot
+    fig.add_trace(go.Scatter(x=data.index, y=data['Adj Close'], name="Adj Close", line=dict(color='blue')), row=1, col=1)
+    
+    # Adding volume to the second subplot
+    fig.add_trace(go.Bar(x=data.index, y=data['Volume'], name="Volume", marker=dict(color='orange')), row=2, col=1)
+    
+    # Update layout to fit the subplot titles and to make the graph more readable
+    fig.update_layout(height=600, width=800, title_text=f"{ticker} Stock Price and Volume", showlegend=False)
+    fig.update_yaxes(title_text="Price in USD", row=1, col=1)
+    fig.update_yaxes(title_text="Volume", row=2, col=1)
+    
+    st.plotly_chart(fig)
+
 
 
 # Implement videos tab
@@ -207,6 +223,7 @@ with news:
 
         comparison_df = pd.DataFrame(comparison_metrics).T
         st.table(comparison_df)
+
 
     # Implement articles tab
     with articles_tab:
