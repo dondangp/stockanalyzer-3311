@@ -11,6 +11,8 @@ import random  # For shuffling the tips list
 import plotly.graph_objects as go  # For more customized plots
 from plotly.subplots import make_subplots  # Importing make_subplots for subplot creation
 import requests
+from alpha_vantage.fundamentaldata import FundamentalData
+
 # Class to hold an array of stock tips for users
 class StockTips:
     def __init__(self):
@@ -70,6 +72,20 @@ video_array = VideoArray(video_urls)
 video_array.shuffle_videos()
 selected_videos = video_array.get_videos()
 
+def fetch_stock_news(ticker, polygon_key):
+        base_url = "https://api.polygon.io/v2/reference/news"
+        params = {
+            "ticker": ticker,
+            "limit": 20,  # Adjust as needed
+            "apiKey": polygon_key
+        }
+        response = requests.get(base_url, params=params)
+        if response.status_code == 200:
+            news_items = response.json().get("results", [])
+            return news_items
+        else:
+            print("Failed to fetch news:", response.text)
+            return []
 # Load environment variables and retrieve API keys
 load_dotenv()
 alpha_vantage_key = os.getenv('ALPHA_VANTAGE_KEY')
@@ -93,13 +109,35 @@ else:
 st.plotly_chart(fig)
 
 # Tabs for different sections of the app
-stock_comparison, news, videos_tab, articles_tab, tips_tab = st.tabs(["Stock Comparison", "News", "Videos", "Articles", "Tips"])
+stock_comparison, stock_chart, news, videos_tab, articles_tab, tips_tab = st.tabs(["Stock Comparison", "Stock Chart", "News", "Videos", "Articles", "Tips"])
 
-# Implement tips tab
-with tips_tab:
-    st.write("Consider the following tips before investing in stocks:")
-    for tip in selected_tips:
-        st.write(f"- {tip}")
+
+#stock chart implementation
+with stock_chart:
+    # Existing stock chart code...
+
+    # Add fundamental data section here
+    ticker = stock  # Assuming 'stock' is the ticker symbol entered by the user
+    
+    with st.expander("Fundamental Data"):
+        # Assuming 'alpha_vantage_key' is defined and holds your Alpha Vantage API key
+        fd = FundamentalData(key=alpha_vantage_key, output_format='pandas')
+        
+        st.subheader('Balance Sheet')
+        balance_sheet, _ = fd.get_balance_sheet_annual(symbol=ticker)
+        bs = balance_sheet.T
+        st.write(bs)
+        
+        st.subheader('Income Statement')
+        income_statement, _ = fd.get_income_statement_annual(symbol=ticker)
+        is1 = income_statement.T
+        st.write(is1)
+        
+        st.subheader('Cash Flow Statement')
+        cash_flow, _ = fd.get_cash_flow_annual(symbol=ticker)
+        cf = cash_flow.T
+        st.write(cf)
+
 
 # Implement videos tab
 with videos_tab:
@@ -170,24 +208,9 @@ with news:
         comparison_df = pd.DataFrame(comparison_metrics).T
         st.table(comparison_df)
 
-    def fetch_stock_news(ticker, polygon_key):
-        base_url = "https://api.polygon.io/v2/reference/news"
-        params = {
-            "ticker": ticker,
-            "limit": 20,  # Adjust as needed
-            "apiKey": polygon_key
-        }
-        response = requests.get(base_url, params=params)
-        if response.status_code == 200:
-            news_items = response.json().get("results", [])
-            return news_items
-        else:
-            print("Failed to fetch news:", response.text)
-            return []
-
     # Implement articles tab
     with articles_tab:
-        st.header(f"Latest News for {stock}")
+        st.header("Trending Stock Articles")
         
         # Fetch stock news using the function
         news_items = fetch_stock_news(stock, polygon_key)
@@ -198,3 +221,9 @@ with news:
             st.image(item["image_url"])
             st.write(item["description"])
             st.markdown(f"[Read more]({item['article_url']})")
+
+    # Implement tips tab
+    with tips_tab:
+        st.write("Consider the following tips before investing in stocks:")
+        for tip in selected_tips:
+            st.write(f"- {tip}")
