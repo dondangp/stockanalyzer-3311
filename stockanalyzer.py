@@ -10,7 +10,7 @@ from stocknews import StockNews  # For fetching news related to stocks
 import random  # For shuffling the tips list
 import plotly.graph_objects as go  # For more customized plots
 from plotly.subplots import make_subplots  # Importing make_subplots for subplot creation
-
+import requests
 # Class to hold an array of stock tips for users
 class StockTips:
     def __init__(self):
@@ -73,9 +73,9 @@ selected_videos = video_array.get_videos()
 # Load environment variables and retrieve API keys
 load_dotenv()
 alpha_vantage_key = os.getenv('ALPHA_VANTAGE_KEY')
-
+polygon_key = os.getenv('polygon_key')
 # Streamlit app setup
-st.markdown("<center><h1 style='color: pink;'>StockAnalyzer</h1></center>", unsafe_allow_html=True)
+st.markdown("<center><h1 style='color: red;'>StockAnalyzer</h1></center>", unsafe_allow_html=True)
 stock = st.sidebar.text_input('Stock', value='AAPL')
 start_date = st.sidebar.date_input('Start Date')
 end_date = st.sidebar.date_input('End Date')
@@ -169,27 +169,32 @@ with news:
 
         comparison_df = pd.DataFrame(comparison_metrics).T
         st.table(comparison_df)
+
+    def fetch_stock_news(ticker, polygon_key):
+        base_url = "https://api.polygon.io/v2/reference/news"
+        params = {
+            "ticker": ticker,
+            "limit": 20,  # Adjust as needed
+            "apiKey": polygon_key
+        }
+        response = requests.get(base_url, params=params)
+        if response.status_code == 200:
+            news_items = response.json().get("results", [])
+            return news_items
+        else:
+            print("Failed to fetch news:", response.text)
+            return []
+
+    # Implement articles tab
     with articles_tab:
-        st.header("Latest Stock Market Articles")
-
-        # Fetch news for a broad overview
-        sn = StockNews(['AAPL', 'MSFT', 'AMZN', 'GOOGL', 'FB', 'TSLA', 'JNJ', 'V', 'PG', 'UNH'], save_news=False)
-        df_articles = sn.read_rss()
-
-        # Since we cannot directly limit the items fetched, let's limit the displayed articles
-        displayed_articles_count = 0
-        max_articles_to_display = 20  # Set the maximum number of articles to display
-
-        for i in range(len(df_articles)):
-            if displayed_articles_count >= max_articles_to_display:
-                break  # Stop displaying more articles if we have reached the maximum
-
-            st.subheader(df_articles['title'].iloc[i])
-            st.markdown(df_articles['published'].iloc[i])
-            st.markdown(df_articles['summary'].iloc[i])
-            if 'link' in df_articles.columns:
-                st.markdown(f"[Read More]({df_articles['link'].iloc[i]})")
-
-            displayed_articles_count += 1
-
-
+        st.header(f"Latest News for {stock}")
+        
+        # Fetch stock news using the function
+        news_items = fetch_stock_news(stock, polygon_key)
+        
+        # Display the news articles
+        for item in news_items:
+            st.subheader(item["title"])
+            st.image(item["image_url"])
+            st.write(item["description"])
+            st.markdown(f"[Read more]({item['article_url']})")
