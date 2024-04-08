@@ -93,7 +93,7 @@ else:
 st.plotly_chart(fig)
 
 # Tabs for different sections of the app
-news, stock_comparison, videos_tab, tips_tab = st.tabs(["News", "Stock Comparison", "Videos", "Tips"])
+stock_comparison, news, videos_tab, articles_tab, tips_tab = st.tabs(["Stock Comparison", "News", "Videos", "Articles", "Tips"])
 
 # Implement tips tab
 with tips_tab:
@@ -169,3 +169,27 @@ with news:
 
         comparison_df = pd.DataFrame(comparison_metrics).T
         st.table(comparison_df)
+    with articles_tab:
+        st.header("Latest Stock Market Articles")
+
+        # Fetch news for a broad overview
+        sn = StockNews(['AAPL', 'MSFT', 'AMZN', 'GOOGL', 'FB', 'TSLA', 'JNJ', 'V', 'PG', 'UNH'], save_news=False)
+        df_articles = sn.read_rss()
+
+        # Since we cannot directly limit the items fetched, let's limit the displayed articles
+        displayed_articles_count = 0
+        max_articles_to_display = 20  # Set the maximum number of articles to display
+
+        for i in range(len(df_articles)):
+            if displayed_articles_count >= max_articles_to_display:
+                break  # Stop displaying more articles if we have reached the maximum
+
+            st.subheader(df_articles['title'].iloc[i])
+            st.markdown(df_articles['published'].iloc[i])
+            st.markdown(df_articles['summary'].iloc[i])
+            if 'link' in df_articles.columns:
+                st.markdown(f"[Read More]({df_articles['link'].iloc[i]})")
+
+            displayed_articles_count += 1
+
+
