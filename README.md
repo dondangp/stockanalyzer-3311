@@ -9,9 +9,7 @@ https://www.alphavantage.co/ - Sign up for a free Alpha Vantage API key
 https://polygon.io/dashboard - Sign up for a free polygon key which gives access to stock endpoints. In this app, we used it for the articles feature.
 
 Create a .env file with the following content:
-
 ALPHA_VANTAGE_KEY =  ``(This is where you put your free/paid key)``
-
 polygon_key = ``(This is where you put your free/paid key)``
 
 How to run:
