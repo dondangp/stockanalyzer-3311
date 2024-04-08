@@ -11,7 +11,6 @@ import random  # For shuffling the tips list
 import plotly.graph_objects as go  # For more customized plots
 from plotly.subplots import make_subplots  # Importing make_subplots for subplot creation
 import requests
-from alpha_vantage.fundamentaldata import FundamentalData
 
 # Class to hold an array of stock tips for users
 class StockTips:
@@ -88,7 +87,6 @@ def fetch_stock_news(ticker, polygon_key):
             return []
 # Load environment variables and retrieve API keys
 load_dotenv()
-alpha_vantage_key = os.getenv('ALPHA_VANTAGE_KEY')
 polygon_key = os.getenv('polygon_key')
 # Streamlit app setup
 st.markdown("<center><h1 style='color: red;'>StockAnalyzer</h1></center>", unsafe_allow_html=True)
@@ -109,49 +107,33 @@ else:
 st.plotly_chart(fig)
 
 # Tabs for different sections of the app
-stock_comparison, stock_chart, news, videos_tab, articles_tab, tips_tab = st.tabs(["Stock Comparison", "Stock Chart", "News", "Videos", "Articles", "Tips"])
+stock_comparison, financialData, news, videos_tab, articles_tab, tips_tab = st.tabs(["Stock Comparison", "Financial Data", "News", "Videos", "Articles", "Tips"])
 
-#stock chart implementation
-with stock_chart:
-    ticker = stock 
-    fd = FundamentalData(key=alpha_vantage_key, output_format='pandas')
-    st.subheader('Balance Sheet')
-    balance_sheet, _ = fd.get_balance_sheet_annual(symbol=ticker)
-    bs = balance_sheet.T
-    st.write(bs)
-    st.subheader('Income Statement')
-    income_statement, _ = fd.get_income_statement_annual(symbol=ticker)
-    is1 = income_statement.T
-    st.write(is1) 
-    st.subheader('Cash Flow Statement')
-    cash_flow, _ = fd.get_cash_flow_annual(symbol=ticker)
-    cf = cash_flow.T
-    st.write(cf)
-    ticker = stock 
-    fd = FundamentalData(key=alpha_vantage_key, output_format='pandas')
+#financial data implementation
+with financialData:
+    st.header(f"{stock} Financials")
+
+    # Create a Ticker object for the selected stock
+    ticker = yf.Ticker(stock)
+
+    # Fetch and display the balance sheet
+    st.subheader("Balance Sheet")
+    balance_sheet = ticker.balance_sheet
+    st.write(balance_sheet)
+
+    # Fetch and display the quarterly balance sheet
+    st.subheader("Quarterly Balance Sheet")
+    quarterly_balance_sheet = ticker.quarterly_balance_sheet
+    st.write(quarterly_balance_sheet)
+
+    # Fetch and display the cash flow statement
+    st.subheader("Cash Flow Statement")
+    cashflow = ticker.cashflow
+    st.write(cashflow)
+
+
+
     
-    # Plotting stock price and volume data
-    st.subheader(f"{ticker} Stock Price and Volume")
-    # Use yfinance to download the data
-    data = yf.download(ticker, start=start_date, end=end_date)
-    
-    # Creating subplots
-    fig = make_subplots(rows=2, cols=1, shared_xaxes=True, 
-                        vertical_spacing=0.02, subplot_titles=(f'{ticker} Stock Price', 'Volume'),
-                        row_heights=[0.5, 0.2])
-    
-    # Adding stock price to the first subplot
-    fig.add_trace(go.Scatter(x=data.index, y=data['Adj Close'], name="Adj Close", line=dict(color='blue')), row=1, col=1)
-    
-    # Adding volume to the second subplot
-    fig.add_trace(go.Bar(x=data.index, y=data['Volume'], name="Volume", marker=dict(color='orange')), row=2, col=1)
-    
-    # Update layout to fit the subplot titles and to make the graph more readable
-    fig.update_layout(height=600, width=800, title_text=f"{ticker} Stock Price and Volume", showlegend=False)
-    fig.update_yaxes(title_text="Price in USD", row=1, col=1)
-    fig.update_yaxes(title_text="Volume", row=2, col=1)
-    
-    st.plotly_chart(fig)
 
 
 
@@ -235,6 +217,7 @@ with news:
         # Display the news articles
         for item in news_items:
             st.subheader(item["title"])
+            st.write(item["author"])
             st.image(item["image_url"])
             st.write(item["description"])
             st.markdown(f"[Read more]({item['article_url']})")
