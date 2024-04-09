@@ -2,7 +2,7 @@
 Our vision is to revolutionize the way individuals engage with the stocks market by providing an unparalleled, intuitive cryptocurrency analysis experience. We aim to empower investors of all levels with real-time insights, personalized investment strategies, and provide users with specific information that are currently underserved by current stock apps. The app is solely meant to analyze the cryptocurrency market and can be used as an assistant to help users analyze charts. The app has innovative features such as personalized tips, cryptocurrencies’ finances, comparing multiple stocks in one graph, including top 10 trending news about the stock, and more! StockAnalyzer is committed to democratizing stock market analysis, making it accessible and understandable for both novices and seasoned investors.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Features: `Stock Comparison, Stock Chart, News, Videos,Articles, Tips`
+Features: `Stock Comparison, Stock Chart, News, Videos,Articles, Tips` <br/>
 `Stock Comparison`: allows users to compare an infinite amount of stocks - yfinance module <br/>
 `Stock Chart`: comprehensive financial data; such as cash flow, balance sheet, index chart, and quarterly balance sheet - yfinance module <br/>
 `News`: Shows top 10 news of a stock from recent to least recent which also calculates a sentiment value score. - stocknews module <br/>
