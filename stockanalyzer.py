@@ -225,7 +225,6 @@ with news:
         # Display the news articles
         for item in news_items:
             st.subheader(item["title"])
-            st.write(item["author"])
             st.image(item["image_url"])
             st.write(item["description"])
             st.markdown(f"[Read more]({item['article_url']})")
