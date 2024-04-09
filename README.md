@@ -3,6 +3,12 @@ Our vision is to revolutionize the way individuals engage with the stocks market
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Features: `Stock Comparison, Stock Chart, News, Videos,Articles, Tips`
+`Stock Comparison`: allows users to compare an infinite amount of stocks - yfinance module
+`Stock Chart`: comprehensive financial data; such as cash flow, balance sheet, index chart, and quarterly balance sheet - yfinance module
+`News`: Shows top 10 news of a stock from recent to least recent which also calculates a sentiment value score. - stocknews module
+`Videos`: Scraped stock guide videos from influencers who are trusted in the stock community. - Youtube Data v3 API
+`Articles`: Shows trending news across from all stocks from recent to least recent articles. - Polygon.io API 
+`Tips`: Generated tips from a list of quotes from trusted stock influencers.
 
 https://www.alphavantage.co/ - Sign up for a free Alpha Vantage API key <br/>
 https://polygon.io/dashboard - Sign up for a free polygon key which gives access to stock endpoints. In this app, we used it for the articles feature.
