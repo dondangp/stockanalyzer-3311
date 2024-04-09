@@ -99,20 +99,32 @@ graph_style = st.sidebar.radio("Choose Graph Style", ("Default", "Changed"))
 data = yf.download(stock, start=start_date, end=end_date).reset_index()
 
 # Display stock price graph
-fig = px.line(data, x='Date', y='Adj Close', title=f"{stock} Stock Price")
+fig = px.line(data, x='Date', y='Adj Close', title=f"{stock} Stock Price", hover_data={"index": data.index})
 if graph_style == "Default":
     fig.update_traces(line=dict(color='Pink'))
 else:
     fig.update_traces(line=dict(dash='dot', color='blue'), marker=dict(size=10, color='LightSkyBlue'))
 st.plotly_chart(fig)
 
+
 # Tabs for different sections of the app
 stock_comparison, financialData, news, videos_tab, articles_tab, tips_tab = st.tabs(["Stock Comparison", "Financial Data", "News", "Videos", "Articles", "Tips"])
 
 #financial data implementation
 with financialData:
+    # Price Index
+    st.header('Price Index')
+    data2 = data.copy()
+    data2['% Change'] = data['Adj Close'] / data['Adj Close'].shift(1) - 1
+    data2.dropna(inplace=True)
+    st.write(data2)
+    annual_return = data2['% Change'].mean() * 252 * 100
+    st.write('Annual Return is ', annual_return, '%')
+    stdev = np.std(data2['% Change']) * np.sqrt(252)
+    st.write('Standard Deviation is ', stdev * 100, '%')
+    st.write('Risk Adj. Return is', annual_return / (stdev * 100))
     st.header(f"{stock} Financials")
-
+    
     # Create a Ticker object for the selected stock
     ticker = yf.Ticker(stock)
 
@@ -131,11 +143,7 @@ with financialData:
     cashflow = ticker.cashflow
     st.write(cashflow)
 
-
-
-    
-
-
+   
 
 # Implement videos tab
 with videos_tab:
