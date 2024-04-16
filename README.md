@@ -31,3 +31,7 @@ OR import modules via requirements.txt using this command:``pip install -r requi
 
 To run the program run this in the command line:
 ``streamlit run stockanalyzer.py``
+
+
+Changes:
+We transitioned our stock tracking application's financial data services from Alpha Vantage API to Polygon.io. The primary reason for this change is the need for an API that offers higher request limits and real-time data, essential for enhancing our app's functionality and user experience. Despite Alpha Vantage's benefits, its restrictive daily usage limit of 25 requests has become inadequate for our expanding user base. Polygon.io not only provides a more generous usage policy but also remains cost-effective as it offers free services that meet our current needs. The integration of Polygon.io's API requires careful handling to maintain data accuracy and system stability. We considered continuing with Alpha Vantage; however, its limitations in handling higher data volumes effectively necessitated our switch to a more scalable solution like Polygon.io.
