@@ -10,6 +10,7 @@ from stocknews import StockNews  # For fetching news related to stocks
 import random  # For shuffling the tips list
 import plotly.graph_objects as go  # For more customized plots
 from plotly.subplots import make_subplots  # Importing make_subplots for subplot creation
+from math import ceil
 import requests
 
 # Class to hold an array of stock tips for users
@@ -181,8 +182,8 @@ with news:
         total_summary_sentiment += news_sentiment
     
     # Calculate average sentiments
-    average_title_sentiment = total_title_sentiment / 10
-    average_summary_sentiment = total_summary_sentiment / 10
+    average_title_sentiment = ceil(total_title_sentiment / 10 * 100) / 100
+    average_summary_sentiment = ceil(total_summary_sentiment / 10 * 100) / 100
     
     # Display average sentiments
     st.markdown(f'## Average Title Sentiment: {average_title_sentiment}')
