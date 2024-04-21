@@ -89,26 +89,31 @@ def fetch_stock_news(ticker, polygon_key):
 load_dotenv()
 polygon_key = os.getenv('polygon_key')
 # Streamlit app setup
+# Streamlit app setup
 st.markdown("<center><h1 style='color: red;'>StockAnalyzer</h1></center>", unsafe_allow_html=True)
 stock = st.sidebar.text_input('Stock', value='AAPL')
 start_date = st.sidebar.date_input('Start Date')
 end_date = st.sidebar.date_input('End Date')
-graph_style = st.sidebar.radio("Choose Graph Style", ("Default", "Changed"))
 
 # Download stock data
 data = yf.download(stock, start=start_date, end=end_date).reset_index()
 
+# Graph style with color picker
+graph_style = st.sidebar.radio("Choose Graph Style", ("Default",))
+line_color = st.sidebar.color_picker("Choose a line color for the graph", '#00f')
+
 # Display stock price graph
-fig = px.line(data, x='Date', y='Adj Close', title=f"{stock} Stock Price", hover_data={"index": data.index})
+fig = px.line(data, x='Date', y='Adj Close', title=f"{stock} Stock Price")
 if graph_style == "Default":
-    fig.update_traces(line=dict(color='Pink'))
+    fig.update_traces(line=dict(color=line_color))
 else:
-    fig.update_traces(line=dict(dash='dot', color='blue'), marker=dict(size=10, color='LightSkyBlue'))
+    fig.update_traces(line=dict(dash='dot', color=line_color), marker=dict(size=10, color=line_color))
 st.plotly_chart(fig)
 
 
+
 # Tabs for different sections of the app
-stock_comparison, financialData, news, videos_tab, articles_tab, tips_tab = st.tabs(["Stock Comparison", "Financial Data", "News", "Videos", "Articles", "Tips"])
+stock_comparison, financialData, news, videos_tab, articles_tab, tips_tab = st.tabs(["Stock Comparison", "Financial Data", "Selected News", "Videos", "Articles", "Tips"])
 
 #financial data implementation
 with financialData:
