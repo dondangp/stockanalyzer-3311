@@ -1,6 +1,4 @@
 # Import required libraries
-from dotenv import load_dotenv  # To load environment variables from .env file
-import os
 import streamlit as st  # For creating the web app
 import pandas as pd
 import numpy as np  # For numerical operations
@@ -71,25 +69,26 @@ video_urls = [
 video_array = VideoArray(video_urls)
 video_array.shuffle_videos()
 selected_videos = video_array.get_videos()
-def fetch_stock_news(ticker, polygon_key):
-        base_url = "https://api.polygon.io/v2/reference/news"
-        params = {
-            "ticker": ticker,
-            "limit": 20,  # Adjust as needed
-            "apiKey": polygon_key
-        }
-        response = requests.get(base_url, params=params)
-        if response.status_code == 200:
-            news_items = response.json().get("results", [])
-            return news_items
-        else:
-            print("Failed to fetch news:", response.text)
-            return []
+
+def fetch_stock_news(ticker):
+    # Access the API key using st.secrets
+    polygon_key = st.secrets["polygon_key"]
+    base_url = "https://api.polygon.io/v2/reference/news"
+    params = {
+        "ticker": ticker,
+        "limit": 20,  # Adjust as needed
+        "apiKey": polygon_key
+    }
+    response = requests.get(base_url, params=params)
+    if response.status_code == 200:
+        news_items = response.json().get("results", [])
+        return news_items
+    else:
+        print("Failed to fetch news:", response.text)
+        return []
 # Load environment variables and retrieve API keys
-load_dotenv()
-polygon_key = os.getenv('polygon_key')
 # Streamlit app setup
-# Streamlit app setup
+polygon_key = st.secrets["polygon_key"]
 st.markdown("<center><h1 style='color: red;'>StockAnalyzer</h1></center>", unsafe_allow_html=True)
 stock = st.sidebar.text_input('Stock', value='AAPL')
 start_date = st.sidebar.date_input('Start Date')
@@ -240,7 +239,8 @@ with news:
         st.header("Trending Stock Articles")
         
         # Fetch stock news using the function
-        news_items = fetch_stock_news(stock, polygon_key)
+        # Call the function with only one argument
+        news_items = fetch_stock_news(stock)
         
         # Display the news articles
         for item in news_items:
