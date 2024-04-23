@@ -6,6 +6,8 @@ Our vision is to revolutionize the way individuals engage with the stocks market
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Features: `Stock Comparison, Stock Chart, News, Videos,Articles, Tips` <br/>
+`Selecting Stock`: The user can input a stock in the stock ticker input and select a date range. The graph will populate the stock's adjusted close (y-axis) and the date (x-axis). </br>
+`Color Wheel`: To promote personalization and usability, we implemented a color wheel feature where users can select a color and update the graph's line color. </br>
 `Stock Comparison`: allows users to compare an infinite amount of stocks - yfinance module <br/>
 `Stock Chart`: comprehensive financial data; such as cash flow, balance sheet, index chart, and quarterly balance sheet - yfinance module <br/>
 `News`: Shows top 10 news of a stock from recent to least recent which also calculates a sentiment value score. - stocknews module <br/>
