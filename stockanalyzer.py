@@ -100,15 +100,12 @@ end_date = st.sidebar.date_input('End Date')
 data = yf.download(stock, start=start_date, end=end_date).reset_index()
 
 # Graph style with color picker
-graph_style = st.sidebar.radio("Choose Graph Style", ("Default",))
 line_color = st.sidebar.color_picker("Choose a line color for the graph", '#00f')
 
 # Display stock price graph
 fig = px.line(data, x='Date', y='Adj Close', title=f"{stock} Stock Price")
-if graph_style == "Default":
-    fig.update_traces(line=dict(color=line_color))
-else:
-    fig.update_traces(line=dict(dash='dot', color=line_color), marker=dict(size=10, color=line_color))
+
+fig.update_traces(line=dict(color=line_color), marker=dict(size=10, color=line_color))
 st.plotly_chart(fig)
 
 
