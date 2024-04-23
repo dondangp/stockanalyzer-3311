@@ -103,9 +103,27 @@ data = yf.download(stock, start=start_date, end=end_date).reset_index()
 line_color = st.sidebar.color_picker("Choose a line color for the graph", '#00f')
 
 # Display stock price graph
-fig = px.line(data, x='Date', y='Adj Close', title=f"{stock} Stock Price")
+# Add an 'Index' column to the DataFrame
+data['Index'] = data.index
 
-fig.update_traces(line=dict(color=line_color), marker=dict(size=10, color=line_color))
+# Display stock price graph using the updated DataFrame
+fig = px.line(
+    data, 
+    x='Date', 
+    y='Adj Close', 
+    title=f"{stock} Stock Price",
+    labels={'Adj Close': 'Adjusted Close'}  # Renaming the label for clarity
+)
+
+# Update the hover template to include the index
+fig.update_traces(
+    line=dict(color=line_color),  # You can set this earlier with the color picker
+    hoverinfo='text',  # Ensures that hover text is displayed
+    hovertemplate="<b>Date:</b> %{x|%B %d, %Y}<br><b>Index:</b> %{customdata[0]}<br><b>Adjusted Close:</b> %{y:.2f}",  # Custom hover text
+    customdata=data[['Index']]  # Pass the index as custom data
+)
+
+# Display the updated graph in Streamlit
 st.plotly_chart(fig)
 
 
