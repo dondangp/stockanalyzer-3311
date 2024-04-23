@@ -15,7 +15,6 @@ Features: `Stock Comparison, Stock Chart, News, Videos,Articles, Tips` <br/>
 `Articles`: Shows trending news across from all stocks from recent to least recent articles. - Polygon.io API <br/>
 `Tips`: Generated tips from a list of quotes from trusted stock influencers.
 
-https://www.alphavantage.co/ - Sign up for a free Alpha Vantage API key <br/>
 https://polygon.io/dashboard - Sign up for a free polygon key which gives access to stock endpoints. In this app, we used it for the articles feature.
 
 Create a .streamlit folder and inside .streamlit make a secrets.toml file with the following content:
@@ -26,7 +25,6 @@ How to run:
 numpy,
 pandas,
 plotly,
-python-dotenv,
 stocknews,
 streamlit,
 yfinance
