@@ -71,7 +71,6 @@ video_urls = [
 video_array = VideoArray(video_urls)
 video_array.shuffle_videos()
 selected_videos = video_array.get_videos()
-polygon_key = Xx0_v1pbnGhYxaWj2dLI6Inbb6Ta7rbD
 def fetch_stock_news(ticker, polygon_key):
         base_url = "https://api.polygon.io/v2/reference/news"
         params = {
